@@ -29,8 +29,8 @@
 
     // Reactive validation
     $: if (name && !namePattern.test(name)) {
-        if (name.length < 3) errors.name = "Enter at least 3 letters";
-        else if (/[0-9]/.test(name)) errors.name = "Numbers not allowed in name";
+        if (/[0-9]/.test(name)) errors.name = "Numbers not allowed in name";
+        else if (name.length < 3) errors.name = "Enter at least 3 letters";
         else errors.name = "Invalid characters in name";
     } else {
         errors.name = "";
