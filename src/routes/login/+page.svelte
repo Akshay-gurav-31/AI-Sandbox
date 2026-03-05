@@ -11,6 +11,24 @@
     let isSubmitting = false;
     let isSubmittingSocial = null;
 
+    // Validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let errors = { email: "", password: "" };
+
+    $: if (email && !emailPattern.test(email)) {
+        errors.email = "Please enter a valid email address";
+    } else {
+        errors.email = "";
+    }
+
+    $: if (password && password.length < 6) {
+        errors.password = "Password must be at least 6 characters";
+    } else {
+        errors.password = "";
+    }
+
+    $: isFormValid = emailPattern.test(email) && password.length >= 6;
+
     onMount(() => {
         // Redirect if already logged in via localStorage
         const storedUser = localStorage.getItem('user');
@@ -48,37 +66,42 @@
 <AuthCard title="Welcome back" subtitle="Log in to access your Sandbox.">
     <form onsubmit={handleCredentialsLogin} class="space-y-5">
         <!-- Email Input -->
-        <div
-            class="relative group rounded-xl border border-slate-800 bg-slate-900/50 focus-within:border-brand-blue/50 focus-within:ring-1 focus-within:ring-brand-blue/20 transition-all"
-        >
-            <label
-                for="email"
-                class="absolute left-4 top-2 text-[10px] font-bold uppercase tracking-wider text-brand-blue opacity-70"
-                >Email Address</label
+        <div class="space-y-1">
+            <div
+                class="relative group rounded-xl border {errors.email ? 'border-red-500/60' : 'border-slate-800'} bg-slate-900/50 focus-within:border-brand-blue/50 focus-within:ring-1 focus-within:ring-brand-blue/20 transition-all"
             >
-            <input
-                name="email"
-                type="email"
-                id="email"
-                bind:value={email}
-                required
-                class="block w-full px-4 pt-7 pb-2 bg-transparent border-none focus:ring-0 text-white placeholder-slate-600 text-sm"
-                placeholder="name@example.com"
-            />
-            <span
-                class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-brand-blue transition-colors"
-                >mail</span
-            >
+                <label
+                    for="email"
+                    class="absolute left-4 top-2 text-[10px] font-bold uppercase tracking-wider {errors.email ? 'text-red-400' : 'text-brand-blue'} opacity-70"
+                    >Email Address</label
+                >
+                <input
+                    name="email"
+                    type="email"
+                    id="email"
+                    bind:value={email}
+                    required
+                    class="block w-full px-4 pt-7 pb-2 bg-transparent border-none focus:ring-0 text-white placeholder-slate-600 text-sm"
+                    placeholder="name@example.com"
+                />
+                <span
+                    class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 {errors.email ? 'text-red-400' : 'text-slate-600 group-focus-within:text-brand-blue'} transition-colors"
+                    >mail</span
+                >
+            </div>
+            {#if errors.email}
+                <p class="text-xs text-red-400 px-1">{errors.email}</p>
+            {/if}
         </div>
 
         <!-- Password Input -->
-        <div class="space-y-2">
+        <div class="space-y-1">
             <div
-                class="relative group rounded-xl border border-slate-800 bg-slate-900/50 focus-within:border-brand-blue/50 focus-within:ring-1 focus-within:ring-brand-blue/20 transition-all"
+                class="relative group rounded-xl border {errors.password ? 'border-red-500/60' : 'border-slate-800'} bg-slate-900/50 focus-within:border-brand-blue/50 focus-within:ring-1 focus-within:ring-brand-blue/20 transition-all"
             >
                 <label
                     for="password"
-                    class="absolute left-4 top-2 text-[10px] font-bold uppercase tracking-wider text-brand-blue opacity-70"
+                    class="absolute left-4 top-2 text-[10px] font-bold uppercase tracking-wider {errors.password ? 'text-red-400' : 'text-brand-blue'} opacity-70"
                     >Password</label
                 >
                 <input
@@ -98,19 +121,23 @@
                     {showPassword ? "visibility_off" : "visibility"}
                 </button>
             </div>
-            <div class="flex justify-end px-1">
-                <button
-                    type="button"
-                    class="text-xs font-medium text-brand-blue/80 hover:text-brand-blue transition-colors underline decoration-brand-blue/30 underline-offset-4"
-                    >Forgot password?</button
-                >
-            </div>
+            {#if errors.password}
+                <p class="text-xs text-red-400 px-1">{errors.password}</p>
+            {:else}
+                <div class="flex justify-end px-1">
+                    <button
+                        type="button"
+                        class="text-xs font-medium text-brand-blue/80 hover:text-brand-blue transition-colors underline decoration-brand-blue/30 underline-offset-4"
+                        >Forgot password?</button
+                    >
+                </div>
+            {/if}
         </div>
 
         <!-- Login Button -->
         <button
             type="submit"
-            disabled={isSubmitting || !email || !password}
+            disabled={isSubmitting || !isFormValid}
             class="w-full py-3.5 bg-brand-blue text-white font-bold rounded-xl shadow-glow hover:bg-brand-blue/90 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
             <span>{isSubmitting ? "Logging in..." : "Log In"}</span>
