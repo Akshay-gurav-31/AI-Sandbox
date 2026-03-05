@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import { BrainCircuit } from "lucide-svelte";
+    import { BrainCircuit, ArrowLeft } from "lucide-svelte";
     import { gsap } from "gsap";
 
     let { title, subtitle, children } = $props();
@@ -39,15 +39,24 @@
     <header
         class="relative z-20 flex items-center justify-between px-6 py-3 lg:px-12 border-b border-brand-blue/10 backdrop-blur-md bg-brand-dark/80"
     >
-        <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-blue/20 rounded-lg border border-brand-blue/30">
-                <BrainCircuit class="w-6 h-6 text-brand-blue" />
+        <div class="flex items-center gap-4 sm:gap-6">
+            <a href="/" class="flex items-center gap-2 text-slate-400 hover:text-white transition-all group">
+                <ArrowLeft class="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                <span class="text-[10px] font-bold uppercase tracking-widest hidden xs:inline">Back to Home</span>
+            </a>
+            
+            <div class="h-4 w-[1px] bg-slate-800 hidden xs:block"></div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-1.5 bg-brand-blue/20 rounded-lg border border-brand-blue/30">
+                    <BrainCircuit class="w-5 h-5 text-brand-blue" />
+                </div>
+                <h2
+                    class="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400"
+                >
+                    AI Sandbox
+                </h2>
             </div>
-            <h2
-                class="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400"
-            >
-                AI Sandbox
-            </h2>
         </div>
     </header>
 
