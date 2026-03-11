@@ -86,57 +86,6 @@
     <form onsubmit={handleSubmit} class="space-y-5">
         <input type="hidden" name="provider" value="credentials" />
         <input type="hidden" name="redirectTo" value="/playground" />
-        <input type="hidden" name="role" value={role} />
-        <!-- Role Selection -->
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div
-                onclick={() => (role = "student")}
-                class="cursor-pointer border {role === 'student'
-                    ? 'border-brand-blue bg-brand-blue/10'
-                    : 'border-slate-800 bg-slate-900/50 hover:bg-slate-800'} rounded-xl p-3.5 flex flex-col items-center gap-2 transition-all group"
-            >
-                <User
-                    class="w-6 h-6 {role === 'student' ? 'text-brand-blue' : 'text-slate-500'} group-hover:scale-110 transition-transform"
-                />
-                <span
-                    class="text-xs font-bold uppercase tracking-wider {role === 'student'
-                        ? 'text-brand-blue'
-                        : 'text-slate-500'}">Student</span
-                >
-            </div>
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div
-                onclick={() => (role = "teacher")}
-                class="cursor-pointer border {role === 'teacher'
-                    ? 'border-brand-blue bg-brand-blue/10'
-                    : 'border-slate-800 bg-slate-900/50 hover:bg-slate-800'} rounded-xl p-3.5 flex flex-col items-center gap-2 transition-all group"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="w-6 h-6 transition-transform group-hover:scale-110 {role === 'teacher' ? 'text-brand-blue' : 'text-slate-500'}"
-                    ><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path
-                        d="M6 12v5c3 3 9 3 12 0v-5"
-                    /></svg
-                >
-                <span
-                    class="text-xs font-bold uppercase tracking-wider {role === 'teacher'
-                        ? 'text-brand-blue'
-                        : 'text-slate-500'}">Educator</span
-                >
-            </div>
-        </div>
-
         <!-- Full Name Input -->
         <div class="space-y-1">
             <div
